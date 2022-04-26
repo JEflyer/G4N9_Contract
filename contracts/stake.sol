@@ -18,7 +18,7 @@ contract Stake is ERC721Holder, ReentrancyGuard {
     
     struct Tx {
         address staker;
-        uint256 blockStaked;
+        uint32 blockStaked;
     }
 
     mapping(uint256 => Tx) private stakeDetails;
@@ -110,7 +110,7 @@ contract Stake is ERC721Holder, ReentrancyGuard {
 
         //insert Tx
         stakeDetails[tokenId].staker = msg.sender;
-        stakeDetails[tokenId].blockStaked = block.number;
+        stakeDetails[tokenId].blockStaked = uint32(block.number);
         
         //add to currently staked
         currentlyStaked[tokenId] = true;
@@ -123,11 +123,11 @@ contract Stake is ERC721Holder, ReentrancyGuard {
     //stake multiple
     function stakeMul(uint256[] memory tokenIds) external nonReentrant{
         //check array size
-        require(tokenIds.length <= 50);
+        require(tokenIds.length <= 50,"limit");
         
         //check that NFTs are not already staked
         for(uint8 i = 0; i< tokenIds.length; i++){
-            require(!currentlyStaked[tokenIds[i]]);
+            require(!currentlyStaked[tokenIds[i]],"alreadyStaked");
         }
 
         //check that msg.sender == owner of all tokenIDs to be staked
@@ -147,7 +147,7 @@ contract Stake is ERC721Holder, ReentrancyGuard {
         //insert Txs
         for(uint8 i = 0; i< tokenIds.length; i++){
             stakeDetails[tokenIds[i]].staker = msg.sender;
-            stakeDetails[tokenIds[i]].blockStaked = block.number;
+            stakeDetails[tokenIds[i]].blockStaked = uint32(block.number);
          
             //add to currentlyStaked map
             currentlyStaked[tokenIds[i]] = true;
@@ -270,7 +270,7 @@ contract Stake is ERC721Holder, ReentrancyGuard {
 
         //set the tokens blockStaked to now
         for(uint16 i = 0; i < tokens.length; i++){
-            stakeDetails[tokens[i]].blockStaked = block.number;
+            stakeDetails[tokens[i]].blockStaked = uint32(block.number);
         }
 
         //payout to msg.sender
@@ -299,7 +299,7 @@ contract Stake is ERC721Holder, ReentrancyGuard {
                 counter ++;
             }
         }
-        uint256 result;
+        uint256 result=0;
         for(uint16 i = 0; i< tokens.length; i++){
             result += (block.number - stakeDetails[tokens[i]].blockStaked) * rewardAmountPerBlock;
         }

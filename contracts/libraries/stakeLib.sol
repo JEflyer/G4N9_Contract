@@ -30,13 +30,6 @@ library StakeLib {
         return IERC721(minter).ownerOf(tokenId);
     }
 
-    function getTokensStaked() internal view returns(uint256[] memory tokenIds){
-        //get list of tokens that msg.sender holds
-        //check which of these tokens are staked
-        //add staked tokens to an []
-        //return tokens 
-    }
-
     function getApprovalForOne(uint256 tokenId, address minter) internal {
         IERC721(minter).approve(address(this), tokenId);
     }

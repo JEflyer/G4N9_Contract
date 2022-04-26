@@ -37,7 +37,7 @@ describe("Testing", () => {
         await Minter.deployed()
 
         await Minter.connect(deployer).pause(false)
-        await Minter.connect(deployer).setmaxMintAmount(100)
+        await Minter.connect(deployer).setmaxMintAmount(500)
         await Minter.connect(deployer).setOnlyWhitelisted(false)
 
         //get & deploy token
@@ -56,6 +56,7 @@ describe("Testing", () => {
 
         //mint 10 NFTs for each wallet, 10 extra NFTs to user2 for limit check
         await Mint(10,deployer)
+        
         await Mint(10,user2,{value: ethers.utils.parseEther("1")})
         await Mint(10,user2,{value: ethers.utils.parseEther("1")})
         await Mint(10,user2,{value: ethers.utils.parseEther("1")})
@@ -66,6 +67,48 @@ describe("Testing", () => {
         await Mint(10,user2,{value: ethers.utils.parseEther("1")})
         await Mint(10,user2,{value: ethers.utils.parseEther("1")})
         await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+        await Mint(10,user2,{value: ethers.utils.parseEther("1")})
+
+
         await Mint(10,user3,{value: ethers.utils.parseEther("1")})
         await Mint(10,user4,{value: ethers.utils.parseEther("1")})
         await Mint(10,user5,{value: ethers.utils.parseEther("1")})
@@ -2040,9 +2083,9 @@ describe("Testing", () => {
         await Stake.connect(user2).stakeMul(sending)
             
         await ethers.provider.send("evm_increaseTime", [3600 * 24 * 2])
-        await Mint(10,user4,{value: ethers.utils.parseEther("1")})
 
-    
+        //this was added in to force a new block.number
+        await Mint(10,user4,{value: ethers.utils.parseEther("1")})    
         let res = await Stake.connect(user2).getTotalPayout(user2.address)
 
         console.log(ethers.utils.parseEther(res.toString()))
@@ -2076,31 +2119,35 @@ describe("Testing", () => {
     //     expect(await Stake.connect(user2).claim())
     // })
 
-    // it("Should allow the user to claim rewards for 60 tokens, after an amount of time", async() => {
-    //     let tokens = await Minter.walletOfOwner(user2.address)
-    //     let sending1 = []
-    //     let sending2 = []
-    //     let sending3 = []
-    //     let x = 60
+    it("Should allow the user to claim rewards for 60 tokens, after an amount of time", async() => {
+        let tokens = await Minter.walletOfOwner(user2.address)
+        let sending1 = []
+        let sending2 = []
+        let sending3 = []
+        let x = 60
 
-    //     for(let i = 0; i< x; i++){
-    //         if(x < 40){
-    //             sending1.push(tokens[i])
-    //         } else if(x < 80){
-    //             sending2.push(tokens[i-40])
-    //         } else {
-    //             sending3.push(tokens[i-80])
-    //         }
-    //     }
-    //     await Minter.connect(user2).setApprovalForAll(Stake.address,true)
+        for(let i = 0; i< x; i++){
+            if(i < 40){
+                sending1.push(tokens[i])
+            } else if(i < 80){
+                sending2.push(tokens[i])
+            } else {
+                sending3.push(tokens[i])
+            }
+        }
+        // console.log("Length of arr1 : ",sending1.length)
+        // console.log(sending1)
+        // console.log("Length of arr2 : ", sending2.length)
+        // console.log(sending2)
+        await Minter.connect(user2).setApprovalForAll(Stake.address,true)
         
-    //     await Stake.connect(user2).stakeMul(sending1)
-    //     await Stake.connect(user2).stakeMul(sending2)
+        await Stake.connect(user2).stakeMul(sending1)
+        await Stake.connect(user2).stakeMul(sending2)
             
-    //     await ethers.provider.send("evm_increaseTime", [3600 * 24 * 2])
+        await ethers.provider.send("evm_increaseTime", [3600 * 24 * 2])
     
-    //     expect(await Stake.connect(user2).claim())
-    // })
+        expect(await Stake.connect(user2).claim())
+    })
 
     // it("Should allow the user to claim rewards for 70 tokens, after an amount of time", async() => {
     //     let tokens = await Minter.walletOfOwner(user2.address)
@@ -2128,31 +2175,31 @@ describe("Testing", () => {
     //     expect(await Stake.connect(user2).claim())
     // })
 
-    // it("Should allow the user to claim rewards for 80 tokens, after an amount of time", async() => {
-    //     let tokens = await Minter.walletOfOwner(user2.address)
-    //     let sending1 = []
-    //     let sending2 = []
-    //     let sending3 = []
-    //     let x = 80
+    it("Should allow the user to claim rewards for 80 tokens, after an amount of time", async() => {
+        let tokens = await Minter.walletOfOwner(user2.address)
+        let sending1 = []
+        let sending2 = []
+        let sending3 = []
+        let x = 80
 
-    //     for(let i = 0; i< x; i++){
-    //         if(x < 40){
-    //             sending1.push(tokens[i])
-    //         } else if(x < 80){
-    //             sending2.push(tokens[i-40])
-    //         } else {
-    //             sending3.push(tokens[i-80])
-    //         }
-    //     }
-    //     await Minter.connect(user2).setApprovalForAll(Stake.address,true)
+        for(let i = 0; i< x; i++){
+            if(i < 40){
+                sending1.push(tokens[i])
+            } else if(i < 80){
+                sending2.push(tokens[i])
+            } else {
+                sending3.push(tokens[i])
+            }
+        }
+        await Minter.connect(user2).setApprovalForAll(Stake.address,true)
         
-    //     await Stake.connect(user2).stakeMul(sending1)
-    //     await Stake.connect(user2).stakeMul(sending2)
+        await Stake.connect(user2).stakeMul(sending1)
+        await Stake.connect(user2).stakeMul(sending2)
             
-    //     await ethers.provider.send("evm_increaseTime", [3600 * 24 * 2])
+        await ethers.provider.send("evm_increaseTime", [3600 * 24 * 2])
     
-    //     expect(await Stake.connect(user2).claim())
-    // })
+        expect(await Stake.connect(user2).claim())
+    })
 
     // it("Should allow the user to claim rewards for 90 tokens, after an amount of time", async() => {
     //     let tokens = await Minter.walletOfOwner(user2.address)
@@ -2181,31 +2228,176 @@ describe("Testing", () => {
     //     expect(await Stake.connect(user2).claim())
     // })
 
-    // it("Should allow the user to claim rewards for 100 tokens, after an amount of time", async() => {
-    //     let tokens = await Minter.walletOfOwner(user2.address)
-    //     let sending1 = []
-    //     let sending2 = []
-    //     let sending3 = []
-    //     let x = 50
+    it("Should allow the user to claim rewards for 100 tokens, after an amount of time", async() => {
+        let tokens = await Minter.walletOfOwner(user2.address)
+        let sending1 = []
+        let sending2 = []
+        let sending3 = []
+        let x = 100
 
-    //     for(let i = 0; i< x; i++){
-    //         if(x < 40){
-    //             sending1.push(tokens[i])
-    //         } else if(x < 80){
-    //             sending2.push(tokens[i-40])
-    //         } else {
-    //             sending3.push(tokens[i-80])
-    //         }
-    //     }
-    //     await Minter.connect(user2).setApprovalForAll(Stake.address,true)
+        for(let i = 0; i< x; i++){
+            if(i < 40){
+                sending1.push(tokens[i])
+            } else if(i < 80){
+                sending2.push(tokens[i])
+            } else {
+                sending3.push(tokens[i])
+            }
+        }
+        await Minter.connect(user2).setApprovalForAll(Stake.address,true)
         
-    //     await Stake.connect(user2).stakeMul(sending1)
-    //     await Stake.connect(user2).stakeMul(sending2)
-    //     await Stake.connect(user2).stakeMul(sending3)
+        await Stake.connect(user2).stakeMul(sending1)
+        await Stake.connect(user2).stakeMul(sending2)
+        await Stake.connect(user2).stakeMul(sending3)
             
-    //     await ethers.provider.send("evm_increaseTime", [3600 * 24 * 2])
+        await ethers.provider.send("evm_increaseTime", [3600 * 24 * 2])
     
-    //     expect(await Stake.connect(user2).claim())
-    // })
+        expect(await Stake.connect(user2).claim())
+    })
+
+    it("Should allow the user to claim rewards for 150 tokens, after an amount of time", async() => {
+        let tokens = await Minter.walletOfOwner(user2.address)
+        let sending1 = []
+        let sending2 = []
+        let sending3 = []
+        let sending4 = []
+        let sending5 = []
+        let x = 150
+
+        for(let i = 0; i< x; i++){
+            if(i < 40){
+                sending1.push(tokens[i])
+            } else if(i < 80){
+                sending2.push(tokens[i])
+            } else if(i < 120){
+                sending3.push(tokens[i])
+            }else if(i < 160){
+                sending4.push(tokens[i])
+            }else {
+                sending5.push(tokens[i])
+            }
+        }
+        await Minter.connect(user2).setApprovalForAll(Stake.address,true)
+        
+        await Stake.connect(user2).stakeMul(sending1)
+        await Stake.connect(user2).stakeMul(sending2)
+        await Stake.connect(user2).stakeMul(sending3)
+            
+        await ethers.provider.send("evm_increaseTime", [3600 * 24 * 2])
+        
+        //to force a new block
+        await Minter.connect(user3).mint(1, {value: ethers.utils.parseEther("1")})
+
+    
+        expect(await Stake.connect(user2).claim())
+    })
+
+    it("Should allow the user to claim rewards for 200 tokens, after an amount of time", async() => {
+        let tokens = await Minter.walletOfOwner(user2.address)
+        let sending1 = []
+        let sending2 = []
+        let sending3 = []
+        let sending4 = []
+        let sending5 = []
+        let x = 200
+
+        for(let i = 0; i< x; i++){
+            if(i < 40){
+                sending1.push(tokens[i])
+            } else if(i < 80){
+                sending2.push(tokens[i])
+            } else if(i < 120){
+                sending3.push(tokens[i])
+            }else if(i < 160){
+                sending4.push(tokens[i])
+            }else {
+                sending5.push(tokens[i])
+            }
+        }
+        await Minter.connect(user2).setApprovalForAll(Stake.address,true)
+        
+        await Stake.connect(user2).stakeMul(sending1)
+        await Stake.connect(user2).stakeMul(sending2)
+        await Stake.connect(user2).stakeMul(sending3)
+        await Stake.connect(user2).stakeMul(sending4)
+        await Stake.connect(user2).stakeMul(sending5)
+            
+        await ethers.provider.send("evm_increaseTime", [3600 * 24 * 2])
+        
+        //to force a new block
+        await Minter.connect(user3).mint(1, {value: ethers.utils.parseEther("1")})
+    
+        expect(await Stake.connect(user2).claim())
+    })
+
+    it("Should allow the user to claim rewards for 500 tokens, after an amount of time", async() => {
+        let tokens = await Minter.walletOfOwner(user2.address)
+        let sending1 = []
+        let sending2 = []
+        let sending3 = []
+        let sending4 = []
+        let sending5 = []
+        let sending6 = []
+        let sending7 = []
+        let sending8 = []
+        let sending9 = []
+        let sending10 = []
+        let sending11 = []
+        let sending12 = []
+        let sending13 = []
+        let x = 200
+
+        for(let i = 0; i< x; i++){
+            if(i < 40){
+                sending1.push(tokens[i])
+            } else if(i < 80){
+                sending2.push(tokens[i])
+            } else if(i < 120){
+                sending3.push(tokens[i])
+            }else if(i < 160){
+                sending4.push(tokens[i])
+            }else if(i < 200){
+                sending5.push(tokens[i])
+            }else if(i < 240){
+                sending6.push(tokens[i])
+            }else if(i < 280){
+                sending7.push(tokens[i])
+            }else if(i < 320){
+                sending8.push(tokens[i])
+            }else if(i < 360){
+                sending9.push(tokens[i])
+            }else if(i < 400){
+                sending10.push(tokens[i])
+            }else if(i < 440){
+                sending11.push(tokens[i])
+            }else if(i < 480){
+                sending12.push(tokens[i])
+            }else{
+                sending13.push(tokens[i])
+            }
+        }
+        await Minter.connect(user2).setApprovalForAll(Stake.address,true)
+        
+        await Stake.connect(user2).stakeMul(sending1)
+        await Stake.connect(user2).stakeMul(sending2)
+        await Stake.connect(user2).stakeMul(sending3)
+        await Stake.connect(user2).stakeMul(sending4)
+        await Stake.connect(user2).stakeMul(sending5)
+        await Stake.connect(user2).stakeMul(sending6)
+        await Stake.connect(user2).stakeMul(sending7)
+        await Stake.connect(user2).stakeMul(sending8)
+        await Stake.connect(user2).stakeMul(sending9)
+        await Stake.connect(user2).stakeMul(sending10)
+        await Stake.connect(user2).stakeMul(sending11)
+        await Stake.connect(user2).stakeMul(sending12)
+        await Stake.connect(user2).stakeMul(sending13)
+            
+        await ethers.provider.send("evm_increaseTime", [3600 * 24 * 2])
+
+        //to force a new block
+        await Minter.connect(user3).mint(1, {value: ethers.utils.parseEther("1")})
+    
+        expect(await Stake.connect(user2).claim())
+    })
     
 })
